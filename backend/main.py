@@ -4,19 +4,29 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from database import engine
+from database import engine, SessionLocal
+from typing import Annotated
+from sqlalchemy.orm import Session
 import models
+import auth
 
 
 app = FastAPI()
-
-SECRET_KEY = "9d5a732c83de5544e71ed2175fce204f55c59e5a0b5fbe638d01e99aeeb6dc54"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+app.include_router(auth.router)
 
 models.Base.metadata.create_all(bind=engine)
 
-@app.get("/test/")
-async def read_root():
-    return {"Hello": "World"}
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
+# Simple root endpoint
+@app.get("/", status_code=status.HTTP_200_OK)
+async def root():
+    return {"message": "API is running", "status": "ok"}
