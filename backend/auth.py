@@ -9,6 +9,7 @@ from models import User
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
+from datetime import timezone
 
 import dotenv
 import os
@@ -61,15 +62,18 @@ async def create_user(create_user_request: CreateUserRequest, db: db_dependency)
     if existing_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists")
     
-    create_user_model = User(
-        username=create_user_request.username,
-        hashed_password=bcrypt_context.hash(create_user_request.password),
-    )
-    db.add(create_user_model)
-    db.commit()
-    db.refresh(create_user_model)
-    return {"id": create_user_model.id, "username": create_user_model.username}
-    
+    try:
+        create_user_model = User(
+            username=create_user_request.username,
+            hashed_password=bcrypt_context.hash(create_user_request.password),
+        )
+        db.add(create_user_model)
+        db.commit()
+        db.refresh(create_user_model)
+        return {"id": create_user_model.id, "username": create_user_model.username}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Error creating user")
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
@@ -80,7 +84,7 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    token = create_access_token(user.username, user.id, timedelta(minutes=20))
+    token = create_access_token(user.username, user.id, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
     return {"access_token": token, "token_type": "bearer"}
 
@@ -95,7 +99,7 @@ def authenticate_user(username: str, password: str, db):
 
 def create_access_token(username: str, user_id: int, expires_delta: timedelta):
     encode = {"sub": username, "user_id": user_id}
-    expire = datetime.utcnow() + expires_delta
+    expire = datetime.now(timezone.utc) + expires_delta
     encode.update({"exp": expire})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
