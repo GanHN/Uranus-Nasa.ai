@@ -84,25 +84,51 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
-      <Card className="w-full max-w-md">
+    <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/uranusaiback.jpg"
+          alt="Uranus background"
+          fill
+          className="object-cover"
+          priority
+          quality={100}
+        />
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
+
+      <Card className="w-full max-w-md relative z-10 backdrop-blur-xl bg-white/10 border-white/20 shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Welcome To Uranus-Nasa!</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-2xl text-center text-white drop-shadow-lg">
+            Welcome To Uranus-NASA!
+          </CardTitle>
+          <CardDescription className="text-center text-white">
             Login to your account or create a new one
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-white/20 backdrop-blur-sm">
+              <TabsTrigger 
+                value="login"
+                className="data-[state=active]:bg-white/30 data-[state=active]:text-white text-white/70"
+              >
+                Login
+              </TabsTrigger>
+              <TabsTrigger 
+                value="signup"
+                className="data-[state=active]:bg-white/30 data-[state=active]:text-white text-white/70"
+              >
+                Sign Up
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-username">Username</Label>
+                  <Label htmlFor="login-username" className="text-white">
+                    Username
+                  </Label>
                   <Input
                     id="login-username"
                     type="text"
@@ -110,10 +136,13 @@ export default function LoginPage() {
                     value={loginData.username}
                     onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
                     required
+                    className="bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:bg-white/30"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password">Password</Label>
+                  <Label htmlFor="login-password" className="text-white">
+                    Password
+                  </Label>
                   <Input
                     id="login-password"
                     type="password"
@@ -121,22 +150,27 @@ export default function LoginPage() {
                     value={loginData.password}
                     onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                     required
+                    className="bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:bg-white/30"
                   />
                 </div>
 
                 {error && (
-                  <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md">
+                  <div className="bg-red-500/40 backdrop-blur-sm text-white text-sm p-3 rounded-md border border-red-500/60">
                     {error}
                   </div>
                 )}
 
                 {success && (
-                  <div className="bg-green-500/15 text-green-700 dark:text-green-400 text-sm p-3 rounded-md">
+                  <div className="bg-green-500/20 backdrop-blur-sm text-white text-sm p-3 rounded-md border border-green-500/30">
                     {success}
                   </div>
                 )}
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border border-white/30" 
+                  disabled={loading}
+                >
                   {loading ? 'Loading...' : 'Login'}
                 </Button>
               </form>
@@ -145,7 +179,9 @@ export default function LoginPage() {
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-username">Username</Label>
+                  <Label htmlFor="signup-username" className="text-white">
+                    Username
+                  </Label>
                   <Input
                     id="signup-username"
                     type="text"
@@ -153,10 +189,13 @@ export default function LoginPage() {
                     value={signupData.username}
                     onChange={(e) => setSignupData({ ...signupData, username: e.target.value })}
                     required
+                    className="bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:bg-white/30"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
+                  <Label htmlFor="signup-password" className="text-white">
+                    Password
+                  </Label>
                   <Input
                     id="signup-password"
                     type="password"
@@ -164,22 +203,27 @@ export default function LoginPage() {
                     value={signupData.password}
                     onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                     required
+                    className="bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:bg-white/30"
                   />
                 </div>
 
                 {error && (
-                  <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md">
+                  <div className="bg-red-500/20 backdrop-blur-sm text-white text-sm p-3 rounded-md border border-red-500/30">
                     {error}
                   </div>
                 )}
 
                 {success && (
-                  <div className="bg-green-500/15 text-green-700 dark:text-green-400 text-sm p-3 rounded-md">
+                  <div className="bg-green-500/20 backdrop-blur-sm text-white text-sm p-3 rounded-md border border-green-500/30">
                     {success}
                   </div>
                 )}
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border border-white/30" 
+                  disabled={loading}
+                >
                   {loading ? 'Creating account...' : 'Sign Up'}
                 </Button>
               </form>

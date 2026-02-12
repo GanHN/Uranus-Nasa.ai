@@ -92,10 +92,6 @@ export default function DashboardPage() {
                   <span className="text-sm font-medium text-muted-foreground">Username:</span>
                   <span className="font-semibold">{user.username}</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                  <span className="text-sm font-medium text-muted-foreground">User ID:</span>
-                  <span className="font-semibold">{user.user_id}</span>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -105,16 +101,10 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Getting Started</CardTitle>
             <CardDescription>
-              Your authentication is working! Here's what you can do next:
+              placeholder
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-              <li>Add more protected routes</li>
-              <li>Create user profile functionality</li>
-              <li>Build your app features</li>
-              <li>Add refresh token logic</li>
-            </ul>
           </CardContent>
         </Card>
       </div>
