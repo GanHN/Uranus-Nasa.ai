@@ -11,19 +11,21 @@ from sqlalchemy.orm import Session
 import models
 import auth
 from auth import get_current_user
+import google_auth
 
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjust this in production to restrict origins
+    allow_origins=["http://localhost:3000"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(auth.router)
+app.include_router(google_auth.router)
 
 models.Base.metadata.create_all(bind=engine)
 
