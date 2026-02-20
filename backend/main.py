@@ -1,6 +1,9 @@
+import os
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
@@ -15,6 +18,14 @@ import google_auth
 
 
 app = FastAPI()
+
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key=os.getenv("SECRET_KEY"),
+    max_age=3600,  
+    same_site="lax",
+    https_only=False  # Set to True in production with HTTPS
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -49,4 +60,4 @@ async def root():
 async def user(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
-    return {"message": f"Hello, {user['username']}!", "status": "ok"}
+    return {"message": f"Hello, {user['username']}!", "user_id": user['user_id']}

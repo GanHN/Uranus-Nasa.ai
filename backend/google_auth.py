@@ -103,7 +103,9 @@ async def google_callback(request: Request, db: db_dependency):
         
     except Exception as e:
         print(f"Error in Google callback: {str(e)}")
-        raise HTTPException(status_code=400, detail=f"Authentication failed: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return RedirectResponse(url="http://localhost:3000/?error=google_auth_failed")
 
 @router.get("/user")
 async def get_google_user(request: Request):
