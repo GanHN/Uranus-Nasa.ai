@@ -179,13 +179,14 @@ export default function LoginPage() {
                 </Button>
 
                 {/* Divider */}
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-white/30" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-transparent px-2 text-white/70">Or continue with</span>
-                  </div>
+                <div className="flex items-center my-6">
+                  {/* Left Line */}
+                  <div className="flex-grow border-t border-white/30"></div>
+                    <span className="flex-shrink mx-4 text-xs uppercase font-medium text-white/70 tracking-wider">
+                      Or continue with
+                    </span>                 
+                  {/* Right Line */}
+                  <div className="flex-grow border-t border-white/30"></div>
                 </div>
 
                 {/* Google Login Button */}
