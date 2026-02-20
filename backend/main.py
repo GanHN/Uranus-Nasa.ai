@@ -24,7 +24,7 @@ app.add_middleware(
     secret_key=os.getenv("SECRET_KEY"),
     max_age=3600,  
     same_site="lax",
-    https_only=False  # Set to True in production with HTTPS
+    https_only=False 
 )
 
 app.add_middleware(

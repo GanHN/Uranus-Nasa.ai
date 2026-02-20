@@ -123,3 +123,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Make all interactive elements show pointer cursor */
+button,
+a,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Ensure disabled elements show not-allowed cursor */
+button:disabled,
+[disabled] {
+  cursor: not-allowed !important;
+}
+
+/* Make sure inputs show text cursor */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  cursor: text !important;
+}
