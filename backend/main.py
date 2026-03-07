@@ -15,7 +15,12 @@ import models
 import auth
 from auth import get_current_user
 import google_auth
+import nasa_api
+import weather_api
+import moon_api
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = FastAPI()
 
@@ -37,6 +42,9 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(google_auth.router)
+app.include_router(nasa_api.router)
+app.include_router(weather_api.router)
+app.include_router(moon_api.router)
 
 models.Base.metadata.create_all(bind=engine)
 
